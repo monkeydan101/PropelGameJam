@@ -5,6 +5,8 @@ TagManager:
   serializedVersion: 2
   tags:
   - deer
+  - fox
+  - bear
   layers:
   - Default
   - TransparentFX
@@ -29,7 +31,7 @@ TagManager:
   - Layer 1
   - Layer 2
   - Layer 3
-  - 
+  - weapon
   - 
   - 
   - 

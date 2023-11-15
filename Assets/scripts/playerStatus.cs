@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.SceneManagement;
+using CodeMonkey.Utils;
 
 public class playerStatus : MonoBehaviour
 {
@@ -12,8 +13,14 @@ public class playerStatus : MonoBehaviour
 
     public healthBar healthBarScript;
 
-    //private weapon weaponParent;
+   
+
+    public Animator animator;
+
+
+    private weapon weaponParent;
     private Vector2 pointerInput;
+
 
     //private InputActionReference pointerPosition;
 
@@ -26,16 +33,84 @@ public class playerStatus : MonoBehaviour
         health = maxHealth;
         healthBarScript.SetMaxHealth(maxHealth);
 
-        //weaponParent = GetComponentInChildren<weapon>(); 
+        weaponParent = GetComponentInChildren<weapon>(); 
         
     }
 
     // Update is called once per frame
     void Update()
     {
-        //pointerInput = GetPointerInput();
+        if (Input.GetKeyDown("a"))
+        {
+            animator.SetBool("isWalkingLeft", true);
 
-        //weapon.PointerPosition = pointerInput;
+            animator.SetBool("isWalkingRight", false);
+            animator.SetBool("isWalkingDown", false);
+            animator.SetBool("isWalkingUp", false);
+
+            weaponParent.playerOrientation = "left";
+        }
+
+        else if (Input.GetKeyDown("d"))
+        {
+            animator.SetBool("isWalkingRight", true);
+            
+            animator.SetBool("isWalkingLeft", false);
+            animator.SetBool("isWalkingDown", false);
+            animator.SetBool("isWalkingUp", false);
+
+            weaponParent.playerOrientation = "right";
+        }
+        else if (Input.GetKeyDown("s"))
+        {
+            animator.SetBool("isWalkingDown", true);
+
+            animator.SetBool("isWalkingLeft", false);
+            animator.SetBool("isWalkingUp", false);
+            animator.SetBool("isWalkingRight", false);
+
+            weaponParent.playerOrientation = "down";
+        }
+        else if (Input.GetKeyDown("w"))
+        {
+            animator.SetBool("isWalkingUp", true);
+
+            animator.SetBool("isWalkingLeft", false);
+            animator.SetBool("isWalkingDown", false);
+            animator.SetBool("isWalkingRight", false);
+
+            weaponParent.playerOrientation = "up";
+        }
+
+
+
+        //for RELEASE OF EACH BUTTON:
+
+
+        
+        if (Input.GetKeyUp("a"))
+        {
+            animator.SetBool("isWalkingLeft", false);
+
+        }
+
+        else if (Input.GetKeyUp("d"))
+        {
+            animator.SetBool("isWalkingRight", false);
+
+        }
+        else if (Input.GetKeyUp("s"))
+        {
+            animator.SetBool("isWalkingDown", false);
+
+        }
+        else if (Input.GetKeyUp("w"))
+        {
+            animator.SetBool("isWalkingUp", false);
+
+        }
+
+
     }
 
     void addCorruption(int addedCorruption)
@@ -74,15 +149,7 @@ public class playerStatus : MonoBehaviour
 
         }
     }  
-    /*
-    private Vector2 GetPointerInput()
-    {
-        //Vector3 mousePos = pointerPosition.action.ReadValue<Vector2>();
-        //mousePos.z = Camera.main.nearClipPlane;
-        //return Camera.main.ScreenToWorldPoint(mousePos);
-        return null;
-    }
-    */
+ 
 
 }
 
