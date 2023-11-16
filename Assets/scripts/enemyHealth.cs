@@ -6,9 +6,11 @@ public class enemyHealth : MonoBehaviour
 {
     public float health;
     public float maxHealth;
+
+    public GameObject essense;
     void Start()
     {
-        health = maxHealth; 
+        health = maxHealth;
     }
 
 
@@ -19,7 +21,12 @@ public class enemyHealth : MonoBehaviour
         if (health < 0)
         {
             gameObject.SetActive(false);
+
+
+
+            Instantiate(essense, transform.position, Quaternion.identity);
+            Destroy(gameObject);
         }
-        
+
     }
 }

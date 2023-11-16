@@ -100,10 +100,15 @@ public class weapon : MonoBehaviour
     {
         foreach (BoxCollider2D collider in Physics2D.OverlapCircleAll(circleOrigin.position, radius))
         {
-            if(collider.gameObject.tag == "deer" || collider.gameObject.tag == "fox" || collider.gameObject.tag == "bear")
+            if (collider.gameObject.GetComponent<enemyHealth>() != null)
             {
-                collider.gameObject.GetComponent<enemyHealth>().damage(5);
+                if (collider.gameObject.tag == "deer" || collider.gameObject.tag == "fox" || collider.gameObject.tag == "bear")
+                {
+                    collider.gameObject.GetComponent<enemyHealth>().damage(5);
+                }
+            }
+               
             }
         }
     }
-}
+

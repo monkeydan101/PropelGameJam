@@ -11,11 +11,13 @@ public class healthBar : MonoBehaviour
     public TextMeshProUGUI healthText;
     public TextMeshProUGUI corruptionText;
 
+    public TextMeshProUGUI timer;
+
     public void setCorruption(int corruption)
     {
         corruptionText.text = corruption.ToString();
     }
-    public void SetHealth(int health)
+    public void SetHealth(float health)
     {
         slider.value = health;
         healthText.text = health.ToString();
@@ -26,5 +28,10 @@ public class healthBar : MonoBehaviour
         slider.maxValue = health;
         slider.value = health;
         healthText.text = health.ToString();
+    }
+
+    public void updateTimer(string timerString)
+    {
+        timer.text = timerString;
     }
 }
