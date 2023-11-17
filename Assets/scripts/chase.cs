@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Runtime.CompilerServices;
 using UnityEngine;
+using UnityEngine.UIElements;
 
 public class chase : MonoBehaviour
 {
@@ -10,7 +11,7 @@ public class chase : MonoBehaviour
 
     public float viewDistance;
 
-
+    Rigidbody2D rb;
     private float distance;
     // Start is called before the first frame update
 
@@ -20,28 +21,39 @@ public class chase : MonoBehaviour
 
     private void Start()
     {
-        
+        rb = this.GetComponent<Rigidbody2D>();
         player = GameObject.FindGameObjectsWithTag("Player");
     }
 
     // Update is called once per frame
     void Update()
     {
+        
+            distance = Vector2.Distance(transform.position, player[0].transform.position); //distance = distance between player and enemy
+            Vector2 direction = player[0].transform.position - transform.position;
+            direction.Normalize();
 
-                distance = Vector2.Distance(transform.position, player[0].transform.position); //distance = distance between player and enemy
-                Vector2 direction = player[0].transform.position - transform.position;
-                direction.Normalize();
+            float angle = Mathf.Atan2(direction.x, direction.y) * Mathf.Rad2Deg; //angle 
 
-                float angle = Mathf.Atan2(direction.x, direction.y) * Mathf.Rad2Deg; //angle 
+            if (distance < viewDistance)
+            {
+                transform.position = Vector2.MoveTowards(this.transform.position, player[0].transform.position, speed * Time.deltaTime); //moves enemy towards character
 
-                if (distance < viewDistance)
-                {
-                    transform.position = Vector2.MoveTowards(this.transform.position, player[0].transform.position, speed * Time.deltaTime); //moves enemy towards character
+                //transform.rotation = Quaternion.Euler(Vector3.forward * angle);    <-- only used for rotating the enemy towards player
 
-                    //transform.rotation = Quaternion.Euler(Vector3.forward * angle);    <-- only used for rotating the enemy towards player
-
-                }
+            }
+        
+        
+                
             
     }
+
+    public void hit()
+    {
+        Vector2 direction = transform.position - player[0].transform.position.normalized;
+        rb.AddForce(direction * 4, ForceMode2D.Impulse);
+    }
+
+    
 
 }

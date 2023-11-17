@@ -154,10 +154,20 @@ public class playerStatus : MonoBehaviour
                     {
                         Debug.Log("healed");
                         health += 15;
+
+
+                        if (health > 100) //caps health to 100
+                        {
+                            health -= (health - 100);
+                        }
+
                         healthBarScript.SetHealth(health);
 
                         currentEssenceCount -= 5;
                         healthBarScript.SetEssence(currentEssenceCount);
+                    
+                    
+                    
                     }
 
                 }
@@ -175,6 +185,7 @@ public class playerStatus : MonoBehaviour
                     currentEssenceCount--;
 
                     healthBarScript.setCorruption(corruption);
+                    healthBarScript.SetEssence(currentEssenceCount);
                 }
 
                 
@@ -196,6 +207,11 @@ public class playerStatus : MonoBehaviour
         
             gameObject.SetActive(false);
         }
+    }
+
+    public void wipeData()
+    {
+        PlayerPrefs.DeleteAll();
     }
 
     public void saveValues()
@@ -228,6 +244,7 @@ public class playerStatus : MonoBehaviour
     public void takeDamage(float damage)
     {
         health -= damage;
+        
         healthBarScript.SetHealth(health);
 
         if (health <= 0) //player death
@@ -262,17 +279,17 @@ public class playerStatus : MonoBehaviour
         if (other.gameObject.tag == "deer") //if touched deer
         {
             Debug.Log("TOUCHED DEER");
-            takeDamage(0.5f);
+            takeDamage(0.2f);
         }
 
         if (other.gameObject.tag == "fox") //if touched fox
         {
-            takeDamage(1f);
+            takeDamage(0.4f);
         }
 
         if (other.gameObject.tag == "bear") //if touched bear
         {
-            takeDamage(2f);
+            takeDamage(1f);
         }
 
         if (other.gameObject.tag == "essense") //if picked up essense

@@ -115,7 +115,7 @@ public class weapon : MonoBehaviour
             {
                 if (collider.gameObject.tag == "deer" || collider.gameObject.tag == "fox" || collider.gameObject.tag == "bear")
                 {
-                    float damage = 5 + (aPlayerStatus.getCorruption()/100);
+                    float damage = 5 + (aPlayerStatus.getCorruption()/30);
                     collider.gameObject.GetComponent<enemyHealth>().damage(damage);
 
                        

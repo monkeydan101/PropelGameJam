@@ -29,5 +29,7 @@ public class enemyHealth : MonoBehaviour
             Destroy(gameObject);
         }
 
+        gameObject.GetComponent<chase>().hit();
+
     }
 }
