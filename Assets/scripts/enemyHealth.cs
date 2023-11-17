@@ -13,7 +13,10 @@ public class enemyHealth : MonoBehaviour
         health = maxHealth;
     }
 
-
+    private void Awake()
+    {
+        DontDestroyOnLoad(gameObject);
+    }
     public void damage(float damage)
     {
         health -= damage;

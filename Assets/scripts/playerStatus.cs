@@ -31,8 +31,18 @@ public class playerStatus : MonoBehaviour
     public GameObject mysprite;
     public Animator animator;
 
+    public bool stopped;
+
 
     // Start is called before the first frame update
+
+    private void Awake()
+    {
+        stopped = false;
+        DontDestroyOnLoad(gameObject);
+
+        transform.position = new Vector3(51f, 11.5f, 0f);
+    }
     void Start()
     {
         corruption = 0;
@@ -44,114 +54,125 @@ public class playerStatus : MonoBehaviour
         weaponParent = GetComponentInChildren<weapon>();
 
         touchingAlter = false;
+        stopped = false;
 
     }
 
     // Update is called once per frame
     void Update()
     {
-        if(animator != null)
+
+        if (stopped != true)
         {
-            if (Input.GetKeyDown("a"))
+
+
+
+            if (animator != null)
             {
-                animator.SetBool("isWalkingLeft", true);
-                animator.SetBool("isWalkingRight", false);
-                animator.SetBool("isWalkingDown", false);
-                animator.SetBool("isWalkingUp", false);
-                weaponParent.playerOrientation = "left";
-            }
-            else if (Input.GetKeyDown("d"))
-            {
-                animator.SetBool("isWalkingRight", true);
-
-                animator.SetBool("isWalkingLeft", false);
-                animator.SetBool("isWalkingDown", false);
-                animator.SetBool("isWalkingUp", false);
-
-                weaponParent.playerOrientation = "right";
-            }
-
-
-            else if (Input.GetKeyDown("s"))
-            {
-                animator.SetBool("isWalkingDown", true);
-
-                animator.SetBool("isWalkingLeft", false);
-                animator.SetBool("isWalkingUp", false);
-                animator.SetBool("isWalkingRight", false);
-
-                weaponParent.playerOrientation = "down";
-            }
-
-            else if (Input.GetKeyDown("w"))
-            {
-                animator.SetBool("isWalkingUp", true);
-
-                animator.SetBool("isWalkingLeft", false);
-                animator.SetBool("isWalkingDown", false);
-                animator.SetBool("isWalkingRight", false);
-
-                weaponParent.playerOrientation = "up";
-            }
-
-            //for the release of each button
-
-            if (Input.GetKeyUp("a"))
-            {
-                animator.SetBool("isWalkingLeft", false);
-            }
-
-            else if (Input.GetKeyUp("d"))
-            {
-                animator.SetBool("isWalkingRight", false);
-            }
-
-            else if (Input.GetKeyUp("s"))
-            {
-                animator.SetBool("isWalkingDown", false);
-            }
-
-            else if (Input.GetKeyUp("w"))
-            {
-                animator.SetBool("isWalkingUp", false);
-            }
-
-            if (Input.GetKeyUp("h"))
-            {
-                Debug.Log("h pressed");
-                if (currentEssenceCount >= 5) //pay 5 essense for health
+                if (Input.GetKeyDown("a"))
                 {
-                    Debug.Log("healed");
-                    health += 15;
-                    healthBarScript.SetHealth(health);
+                    animator.SetBool("isWalkingLeft", true);
+                    animator.SetBool("isWalkingRight", false);
+                    animator.SetBool("isWalkingDown", false);
+                    animator.SetBool("isWalkingUp", false);
+                    weaponParent.playerOrientation = "left";
+                }
+                if (Input.GetKeyDown("d"))
+                {
+                    animator.SetBool("isWalkingRight", true);
 
-                    currentEssenceCount -= 5;
-                    healthBarScript.SetEssence(currentEssenceCount);
+                    animator.SetBool("isWalkingLeft", false);
+                    animator.SetBool("isWalkingDown", false);
+                    animator.SetBool("isWalkingUp", false);
+
+                    weaponParent.playerOrientation = "right";
                 }
 
+
+                if (Input.GetKeyDown("s"))
+                {
+                    animator.SetBool("isWalkingDown", true);
+
+                    animator.SetBool("isWalkingLeft", false);
+                    animator.SetBool("isWalkingUp", false);
+                    animator.SetBool("isWalkingRight", false);
+
+                    weaponParent.playerOrientation = "down";
+                }
+
+                if (Input.GetKeyDown("w"))
+                {
+                    animator.SetBool("isWalkingUp", true);
+
+                    animator.SetBool("isWalkingLeft", false);
+                    animator.SetBool("isWalkingDown", false);
+                    animator.SetBool("isWalkingRight", false);
+
+                    weaponParent.playerOrientation = "up";
+                }
+
+                //for the release of each button
+
+                if (Input.GetKeyUp("a"))
+                {
+                    animator.SetBool("isWalkingLeft", false);
+                }
+
+                if (Input.GetKeyUp("d"))
+                {
+                    animator.SetBool("isWalkingRight", false);
+                }
+
+                if (Input.GetKeyUp("s"))
+                {
+                    animator.SetBool("isWalkingDown", false);
+                }
+
+                if (Input.GetKeyUp("w"))
+                {
+                    animator.SetBool("isWalkingUp", false);
+                }
+
+                if (Input.GetKeyUp("h"))
+                {
+                    Debug.Log("h pressed");
+                    if (currentEssenceCount >= 5) //pay 5 essense for health
+                    {
+                        Debug.Log("healed");
+                        health += 15;
+                        healthBarScript.SetHealth(health);
+
+                        currentEssenceCount -= 5;
+                        healthBarScript.SetEssence(currentEssenceCount);
+                    }
+
+                }
             }
-        }
 
 
-        if (touchingAlter)
-        {
-            Debug.Log("touching alter");
-
-            alterText.SetActive(true);
-            for (int i = currentEssenceCount; i > 0; i--)
+            if (touchingAlter)
             {
-                corruption++;
-                currentEssenceCount--;
+                Debug.Log("touching alter");
 
-                healthBarScript.setCorruption(corruption);
+                alterText.SetActive(true);
+                for (int i = currentEssenceCount; i > 0; i--)
+                {
+                    corruption++;
+                    currentEssenceCount--;
+
+                    healthBarScript.setCorruption(corruption);
+                }
             }
+            else //if not touching alter
+            {
+                alterText.SetActive(false);
+            }
+
         }
-        else //if not touching alter
+        else //if currently in house
         {
-            alterText.SetActive(false);
+            gameObject.SetActive(false);
         }
-
-
     }
 
 
@@ -173,7 +194,7 @@ public class playerStatus : MonoBehaviour
             healthBarScript.SetHealth(0);
 
             deathscreen.playerDeath(totalEssenseCount, timeScript.getDayCount()); //this displays the death death screen
-
+            alterText.SetActive(false);
 
 
             timeScript.timerOff(); //pauses the timer
@@ -222,26 +243,8 @@ public class playerStatus : MonoBehaviour
 
     }
 
-    private void OnTriggerEnter(Collider other)
-    {
-        
-        if (other.gameObject.tag == "alter") //if touching
-        {
-            Debug.Log("TOUCHING ALTER");
-            touchingAlter = true;
-        }
-    }
 
-
-    private void OnTriggerExit(Collider other)
-    {
-        if (other.gameObject.tag == "alter")
-        {
-            Debug.Log("exit alter");
-            touchingAlter = false;
-        }
-    }
-
+  
 
 
 }

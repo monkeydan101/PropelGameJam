@@ -11,8 +11,8 @@ public class enemySpawner : MonoBehaviour
     {
         for(int i = 0; i < deerCount; i++) //deer spawner
         {
-            int xPos = Random.Range(-34, 98);
-            int yPos = Random.Range(-53, 18);
+            int xPos = Random.Range(-34, 72);
+            int yPos = Random.Range(-45, 16);
 
             Instantiate(deerPrefab, new Vector3(xPos, yPos, 0), Quaternion.identity);
             Debug.Log("Spawned deer");
@@ -20,8 +20,8 @@ public class enemySpawner : MonoBehaviour
 
         for (int i = 0; i < foxCount; i++) //fox spawner
         {
-            int xPos = Random.Range(-34, 98);
-            int yPos = Random.Range(-53, 18);
+            int xPos = Random.Range(-34, 72);
+            int yPos = Random.Range(-45, 16);
 
             Instantiate(foxPrefab, new Vector3(xPos, yPos, 0), Quaternion.identity);
             Debug.Log("Spawned fox");
@@ -29,8 +29,8 @@ public class enemySpawner : MonoBehaviour
 
         for (int i = 0; i < bearCount; i++) //bear spawner
         {
-            int xPos = Random.Range(-34, 98);
-            int yPos = Random.Range(-53, 18);
+            int xPos = Random.Range(-34, 72);
+            int yPos = Random.Range(-45, 16);
 
             Instantiate(bearPrefab, new Vector3(xPos, yPos, 0), Quaternion.identity);
 

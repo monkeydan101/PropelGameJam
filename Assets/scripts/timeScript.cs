@@ -1,6 +1,8 @@
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class timeScript : MonoBehaviour
 {
@@ -10,6 +12,14 @@ public class timeScript : MonoBehaviour
     public GameObject[] deers = null;
     public GameObject[] foxes = null;
     public GameObject[] bears = null;
+
+    public GameObject dayScreen;
+
+    public TextMeshProUGUI dayCounterText;
+
+    public GameObject player;
+
+
 
     public int deerCount;
     public int foxCount;
@@ -28,7 +38,9 @@ public class timeScript : MonoBehaviour
 
         dayCount = 1;
 
-       
+        dayScreen.SetActive(false);
+
+
 
         deers = new GameObject[800];
         bears = new GameObject[800];
@@ -141,11 +153,36 @@ public class timeScript : MonoBehaviour
 
     public void timeOver()
     {
-        TimeLeft = 3;
+        player.SetActive(false);
+
+        TimeLeft = 120;
         TimerOn = true;
 
         dayCount += 1;
+
+        dayCounterText.text = dayCount.ToString();
+        dayScreen.SetActive(true);
+
+        StartCoroutine(dayScreenWaiter());
+        
+    }
+
+    IEnumerator dayScreenWaiter()
+    {
+        yield return new WaitForSeconds(5);
+
+        dayScreen.SetActive(false);
+
+
+        //switch scene to house
+
         getEnemyCounts(); //this spawns the new enemys
+        player.SetActive(true);
+
+        player.GetComponent<playerStatus>().stopped = true;
+
+        SceneManager.LoadScene("house"); //loads player to the house
+
     }
 
     public int getDayCount()
