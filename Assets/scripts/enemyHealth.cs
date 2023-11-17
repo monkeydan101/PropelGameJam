@@ -15,7 +15,7 @@ public class enemyHealth : MonoBehaviour
 
     private void Awake()
     {
-        DontDestroyOnLoad(gameObject);
+        //DontDestroyOnLoad(gameObject);
     }
     public void damage(float damage)
     {

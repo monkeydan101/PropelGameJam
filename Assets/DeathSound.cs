@@ -4,16 +4,23 @@ using UnityEngine;
 
 public class DeathSound : MonoBehaviour
 {
+
+    private bool hasPlayed;
     [SerializeField] private AudioSource audio;
     // Start is called before the first frame update
     public void playSound()
     {
-        audio.Play();
+        if(hasPlayed != true)
+        {
+            audio.Play();
+            hasPlayed = true;
+        }
+      
     }
 
     // Update is called once per frame
-    void Update()
+    void Start()
     {
-        
+        hasPlayed = false;
     }
 }

@@ -21,10 +21,13 @@ namespace Cainos.PixelArtTopDown_Basic
 
         private void OnTriggerEnter2D(Collider2D other)
         {
-            targetColor = new Color(1, 1, 1, 1);
-            playerStatus.touchingAlter = true;
+            if (other.tag == "Player")
+            {
+                targetColor = new Color(1, 1, 1, 1);
+                playerStatus.touchingAlter = true;
 
-            alterAudio.Play();
+                alterAudio.Play();
+            }
         }
 
       
@@ -32,8 +35,12 @@ namespace Cainos.PixelArtTopDown_Basic
 
         private void OnTriggerExit2D(Collider2D other)
         {
-            targetColor = new Color(1, 1, 1, 0);
-            playerStatus.touchingAlter = false;
+            if(other.tag == "Player")
+            {
+                targetColor = new Color(1, 1, 1, 0);
+                playerStatus.touchingAlter = false;
+            }
+          
            }
 
         private void Update()

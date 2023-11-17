@@ -32,6 +32,8 @@ public class playerStatus : MonoBehaviour
     public GameObject mysprite;
     public Animator animator;
 
+    public DeathSound deathSound;
+
     public bool stopped;
     [SerializeField] private AudioSource audio;
 
@@ -49,19 +51,26 @@ public class playerStatus : MonoBehaviour
 
 
         healthBarScript.setCorruption(corruption);
+        healthBarScript.SetHealth(health);
+        healthBarScript.SetEssence(currentEssenceCount);
 
         healthBarScript.SetMaxHealth(maxHealth);
 
         weaponParent = GetComponentInChildren<weapon>();
 
         stopped = false;
-        DontDestroyOnLoad(gameObject);
+        
 
         touchingAlter = false;
 
         transform.position = new Vector3(51f, 11.5f, 0f);
     }
-    
+
+    void Start()
+    {
+        //PlayerPrefs.DeleteAll();
+    }
+
 
     // Update is called once per frame
     void Update()
@@ -173,7 +182,11 @@ public class playerStatus : MonoBehaviour
             }
             else //if not touching alter
             {
-                alterText.SetActive(false);
+                if(alterText != null)
+                {
+                    alterText.SetActive(false);
+                }
+                
             }
 
         }
@@ -202,6 +215,7 @@ public class playerStatus : MonoBehaviour
 
             PlayerPrefs.Save();
             gameObject.SetActive(false);
+            Destroy(gameObject);
     }
 
 
@@ -219,6 +233,8 @@ public class playerStatus : MonoBehaviour
         if (health <= 0) //player death
         {
             healthBarScript.SetHealth(0);
+
+            deathSound.playSound();
 
             deathscreen.playerDeath(totalEssenseCount, timeScript.getDayCount()); //this displays the death death screen
             alterText.SetActive(false);
