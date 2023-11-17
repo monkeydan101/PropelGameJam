@@ -14,15 +14,13 @@ public class enemyHealth : MonoBehaviour
     }
 
 
-    public void damage(int damage)
+    public void damage(float damage)
     {
         health -= damage;
 
         if (health < 0)
         {
             gameObject.SetActive(false);
-
-
 
             Instantiate(essense, transform.position, Quaternion.identity);
             Destroy(gameObject);

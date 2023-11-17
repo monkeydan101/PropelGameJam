@@ -11,12 +11,16 @@ public class playerStatus : MonoBehaviour
     public int maxHealth;
     public int corruption;
 
+    public bool touchingAlter;
+
     public healthBar healthBarScript;
 
     private weapon weaponParent;
     private Vector2 pointerInput;
 
     public deathScreen deathscreen;
+
+    public GameObject alterText;
 
 
     public int totalEssenseCount;
@@ -38,6 +42,8 @@ public class playerStatus : MonoBehaviour
         healthBarScript.SetMaxHealth(maxHealth);
 
         weaponParent = GetComponentInChildren<weapon>();
+
+        touchingAlter = false;
 
     }
 
@@ -109,8 +115,43 @@ public class playerStatus : MonoBehaviour
             {
                 animator.SetBool("isWalkingUp", false);
             }
+
+            if (Input.GetKeyUp("h"))
+            {
+                Debug.Log("h pressed");
+                if (currentEssenceCount >= 5) //pay 5 essense for health
+                {
+                    Debug.Log("healed");
+                    health += 15;
+                    healthBarScript.SetHealth(health);
+
+                    currentEssenceCount -= 5;
+                    healthBarScript.SetEssence(currentEssenceCount);
+                }
+
+            }
         }
-        
+
+
+        if (touchingAlter)
+        {
+            Debug.Log("touching alter");
+
+            alterText.SetActive(true);
+            for (int i = currentEssenceCount; i > 0; i--)
+            {
+                corruption++;
+                currentEssenceCount--;
+
+                healthBarScript.setCorruption(corruption);
+            }
+        }
+        else //if not touching alter
+        {
+            alterText.SetActive(false);
+        }
+
+
     }
 
 
@@ -131,8 +172,6 @@ public class playerStatus : MonoBehaviour
         {
             healthBarScript.SetHealth(0);
 
-
-
             deathscreen.playerDeath(totalEssenseCount, timeScript.getDayCount()); //this displays the death death screen
 
 
@@ -140,12 +179,15 @@ public class playerStatus : MonoBehaviour
             timeScript.timerOff(); //pauses the timer
 
 
-
+            weaponParent.doesExist = false;
             Destroy(mysprite);
         }
     }
 
-
+    public int getCorruption()
+    {
+        return corruption;
+    }
 
     private void OnCollisionStay2D(Collision2D other)
     {
@@ -174,8 +216,32 @@ public class playerStatus : MonoBehaviour
             Destroy(other.gameObject);
 
             Debug.Log("essense +1");
+
+            healthBarScript.SetEssence(currentEssenceCount);
+        }
+
+    }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        
+        if (other.gameObject.tag == "alter") //if touching
+        {
+            Debug.Log("TOUCHING ALTER");
+            touchingAlter = true;
         }
     }
+
+
+    private void OnTriggerExit(Collider other)
+    {
+        if (other.gameObject.tag == "alter")
+        {
+            Debug.Log("exit alter");
+            touchingAlter = false;
+        }
+    }
+
 
 
 }

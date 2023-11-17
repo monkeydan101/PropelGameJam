@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 //when something get into the alta, make the runes glow
@@ -8,6 +9,9 @@ namespace Cainos.PixelArtTopDown_Basic
 
     public class PropsAltar : MonoBehaviour
     {
+      
+        public playerStatus playerStatus;
+
         public List<SpriteRenderer> runes;
         public float lerpSpeed;
 
@@ -17,12 +21,17 @@ namespace Cainos.PixelArtTopDown_Basic
         private void OnTriggerEnter2D(Collider2D other)
         {
             targetColor = new Color(1, 1, 1, 1);
+            playerStatus.touchingAlter = true;
         }
+
+      
+        
 
         private void OnTriggerExit2D(Collider2D other)
         {
             targetColor = new Color(1, 1, 1, 0);
-        }
+            playerStatus.touchingAlter = false;
+           }
 
         private void Update()
         {

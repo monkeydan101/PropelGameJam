@@ -12,15 +12,19 @@ public class weapon : MonoBehaviour
     private bool attackBlocked;
     public Transform circleOrigin;
     public float radius;
-
+    public bool doesExist;
 
     private Transform weaponTransform;
     public Animator animator;
     public String playerOrientation;
+
+    public playerStatus aPlayerStatus;
     private void Awake()
     {
         weaponTransform = transform.Find("weapon");
         playerOrientation = "up";
+
+        doesExist = true;
     }
 
     private void Update()
@@ -30,6 +34,7 @@ public class weapon : MonoBehaviour
             Attack();
         }
     }
+
 
     
     private void LateUpdate()
@@ -50,6 +55,11 @@ public class weapon : MonoBehaviour
     public void Attack()
     {
         if (attackBlocked)
+        {
+            return;
+        }
+
+        if(doesExist == false)
         {
             return;
         }
@@ -98,16 +108,16 @@ public class weapon : MonoBehaviour
 
     public void DetectColliders()
     {
-        foreach (BoxCollider2D collider in Physics2D.OverlapCircleAll(circleOrigin.position, radius))
+        foreach (Collider2D collider in Physics2D.OverlapCircleAll(circleOrigin.position, radius))
         {
             if (collider.gameObject.GetComponent<enemyHealth>() != null)
             {
                 if (collider.gameObject.tag == "deer" || collider.gameObject.tag == "fox" || collider.gameObject.tag == "bear")
                 {
-                    collider.gameObject.GetComponent<enemyHealth>().damage(5);
+                    float damage = 5 + (aPlayerStatus.getCorruption()/100);
+                    collider.gameObject.GetComponent<enemyHealth>().damage(damage);
                 }
             }
-               
             }
         }
     }

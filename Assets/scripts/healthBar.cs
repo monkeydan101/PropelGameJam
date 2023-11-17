@@ -9,6 +9,7 @@ public class healthBar : MonoBehaviour
 
     public Slider slider;
     public TextMeshProUGUI healthText;
+    public TextMeshProUGUI essenseCount;
     public TextMeshProUGUI corruptionText;
 
     public TextMeshProUGUI timer;
@@ -33,5 +34,10 @@ public class healthBar : MonoBehaviour
     public void updateTimer(string timerString)
     {
         timer.text = timerString;
+    }
+
+    public void SetEssence(float newEssense)
+    {
+        essenseCount.text = newEssense.ToString();
     }
 }

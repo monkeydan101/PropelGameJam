@@ -17,7 +17,11 @@ public class attackListener : MonoBehaviour
     {
         if (Input.GetKey(KeyCode.Mouse0))
         {
-            weaponParent.Attack();
+            if (weaponParent.doesExist)
+            {
+                weaponParent.Attack();
+            }
+           
         }
     }
 }
