@@ -11,6 +11,8 @@ public class playerStatus : MonoBehaviour
     public int maxHealth;
     public int corruption;
 
+    public GameObject healthSoundMaker;
+
     public bool touchingAlter;
 
 
@@ -165,8 +167,8 @@ public class playerStatus : MonoBehaviour
 
                         currentEssenceCount -= 5;
                         healthBarScript.SetEssence(currentEssenceCount);
-                    
-                    
+
+                        healthSoundMaker.GetComponent<healthSound>().playSound();
                     
                     }
 

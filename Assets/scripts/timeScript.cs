@@ -16,6 +16,8 @@ public class timeScript : MonoBehaviour
     public GameObject dayScreen;
 
     public TextMeshProUGUI dayCounterText;
+    [SerializeField] private AudioSource audio;
+
 
     public GameObject player;
 
@@ -165,6 +167,9 @@ public class timeScript : MonoBehaviour
 
     public void timeOver()
     {
+
+        audio.Play();
+
         player.SetActive(false);
         getEnemyCounts(); //this spawns the new enemys
 
@@ -195,8 +200,8 @@ public class timeScript : MonoBehaviour
 
         player.GetComponent<playerStatus>().saveValues();
 
-        
 
+        
         
 
         SceneManager.LoadScene("house"); //loads player to the house
