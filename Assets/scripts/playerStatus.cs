@@ -34,7 +34,6 @@ public class playerStatus : MonoBehaviour
 
     public bool stopped;
     [SerializeField] private AudioSource audio;
-    [SerializeField] private AudioSource alterAudio;
 
 
     // Start is called before the first frame update
@@ -169,7 +168,7 @@ public class playerStatus : MonoBehaviour
                     healthBarScript.setCorruption(corruption);
                 }
 
-                alterAudio.Play();
+                
 
             }
             else //if not touching alter
