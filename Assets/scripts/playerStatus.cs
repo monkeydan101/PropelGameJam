@@ -13,6 +13,7 @@ public class playerStatus : MonoBehaviour
 
     public bool touchingAlter;
 
+
     public healthBar healthBarScript;
 
     private weapon weaponParent;
@@ -38,25 +39,28 @@ public class playerStatus : MonoBehaviour
 
     private void Awake()
     {
-        stopped = false;
-        DontDestroyOnLoad(gameObject);
+        //updates values
+        currentEssenceCount = PlayerPrefs.GetInt("currentEssenceCount", 0);
+        totalEssenseCount = PlayerPrefs.GetInt("totalEssenseCount", 0);
+        health = PlayerPrefs.GetInt("health", 100);
+        corruption = PlayerPrefs.GetInt("corruption", 0);
 
-        transform.position = new Vector3(51f, 11.5f, 0f);
-    }
-    void Start()
-    {
-        corruption = 0;
+
+
         healthBarScript.setCorruption(corruption);
 
-        health = maxHealth;
         healthBarScript.SetMaxHealth(maxHealth);
 
         weaponParent = GetComponentInChildren<weapon>();
 
-        touchingAlter = false;
         stopped = false;
+        DontDestroyOnLoad(gameObject);
 
+        touchingAlter = false;
+
+        transform.position = new Vector3(51f, 11.5f, 0f);
     }
+    
 
     // Update is called once per frame
     void Update()
@@ -169,13 +173,32 @@ public class playerStatus : MonoBehaviour
             }
 
         }
-        else //if currently in house
+        else
         {
+
+        
             gameObject.SetActive(false);
         }
     }
 
+    public void saveValues()
+    {
+        //refresh 30 hit ponts to health
+            health += 30f;
 
+            if(health > 100) //caps health to 100
+            {
+                health -= (health - 100);
+            }
+
+            PlayerPrefs.SetInt("currentEssenceCount", currentEssenceCount);
+            PlayerPrefs.SetInt("totalEssenseCount", totalEssenseCount);
+            PlayerPrefs.SetFloat("health", health);
+            PlayerPrefs.SetInt("corruption", corruption);
+
+            PlayerPrefs.Save();
+            gameObject.SetActive(false);
+    }
 
 
     public void addCorruption(int addedCorruption)
@@ -201,6 +224,9 @@ public class playerStatus : MonoBehaviour
 
 
             weaponParent.doesExist = false;
+
+            PlayerPrefs.DeleteAll();
+
             Destroy(mysprite);
         }
     }

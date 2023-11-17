@@ -34,6 +34,7 @@ public class timeScript : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        DontDestroyOnLoad(gameObject);
         TimerOn = true; //this is JUST FOR TESTING, ONLY TURN TIMER ON IF THE PLAYER LEAVES THE HOUSE
 
         dayCount = 1;
@@ -42,11 +43,16 @@ public class timeScript : MonoBehaviour
 
 
 
-        deers = new GameObject[800];
-        bears = new GameObject[800];
-        foxes = new GameObject[800];
+        deers = new GameObject[999];
+        bears = new GameObject[999];
+        foxes = new GameObject[999];
 
         //START WITH BASE AMOUNT OF DEERS BELOW
+    }
+
+    private void Awake()
+    {
+        TimerOn = true;
     }
 
     // Update is called once per frame
@@ -156,7 +162,7 @@ public class timeScript : MonoBehaviour
         player.SetActive(false);
 
         TimeLeft = 120;
-        TimerOn = true;
+        TimerOn = false;
 
         dayCount += 1;
 
@@ -175,11 +181,15 @@ public class timeScript : MonoBehaviour
 
 
         //switch scene to house
-
+        player.GetComponent<playerStatus>().stopped = true;
         getEnemyCounts(); //this spawns the new enemys
         player.SetActive(true);
 
-        player.GetComponent<playerStatus>().stopped = true;
+        player.GetComponent<playerStatus>().saveValues();
+
+        
+
+        
 
         SceneManager.LoadScene("house"); //loads player to the house
 
