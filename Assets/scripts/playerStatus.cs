@@ -33,6 +33,8 @@ public class playerStatus : MonoBehaviour
     public Animator animator;
 
     public bool stopped;
+    [SerializeField] private AudioSource audio;
+    [SerializeField] private AudioSource alterAudio;
 
 
     // Start is called before the first frame update
@@ -166,6 +168,9 @@ public class playerStatus : MonoBehaviour
 
                     healthBarScript.setCorruption(corruption);
                 }
+
+                alterAudio.Play();
+
             }
             else //if not touching alter
             {
@@ -265,6 +270,8 @@ public class playerStatus : MonoBehaviour
             Debug.Log("essense +1");
 
             healthBarScript.SetEssence(currentEssenceCount);
+
+            audio.Play();
         }
 
     }

@@ -17,6 +17,7 @@ public class weapon : MonoBehaviour
     private Transform weaponTransform;
     public Animator animator;
     public String playerOrientation;
+    [SerializeField] private AudioSource audio;
 
     public playerStatus aPlayerStatus;
     private void Awake()
@@ -116,6 +117,10 @@ public class weapon : MonoBehaviour
                 {
                     float damage = 5 + (aPlayerStatus.getCorruption()/100);
                     collider.gameObject.GetComponent<enemyHealth>().damage(damage);
+
+                       
+                    audio.Play();
+
                 }
             }
             }

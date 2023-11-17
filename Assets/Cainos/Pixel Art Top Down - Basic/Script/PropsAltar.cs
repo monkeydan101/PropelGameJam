@@ -17,11 +17,14 @@ namespace Cainos.PixelArtTopDown_Basic
 
         private Color curColor;
         private Color targetColor;
+        [SerializeField] private AudioSource alterAudio;
 
         private void OnTriggerEnter2D(Collider2D other)
         {
             targetColor = new Color(1, 1, 1, 1);
             playerStatus.touchingAlter = true;
+
+            alterAudio.Play();
         }
 
       
